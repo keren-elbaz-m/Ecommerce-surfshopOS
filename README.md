@@ -1,4 +1,4 @@
-# SoftwareOS
+# Ecommerce-surfshopOS
 
 SoftwareOS is Moveo's team framework for Spec-Driven Development on Claude Code. It gives PMs and devs one shared planning hierarchy — customer → ecosystem → product → epic → spec — where **the spec is the single source of truth** for what was built and why. Every level is a slash command that writes plain markdown into the project's `softwareos/` folder, so agents and humans read the same docs. Forked from agent-os v3 (we kept its standards system intact).
 
