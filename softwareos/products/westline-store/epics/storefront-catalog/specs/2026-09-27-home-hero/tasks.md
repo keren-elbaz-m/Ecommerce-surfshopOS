@@ -6,11 +6,11 @@
 
 ## Backend — Strapi homepage single type
 
-- [x] T1 Add component `cms/src/components/home/hero-slide.json` (headline, subtext, image, ctaLabel, ctaHref with the validations in Technical Approach)
-- [x] T2 Add single type `cms/src/api/homepage/` (schema.json with `singleType`, `draftAndPublish: false`, repeatable `heroSlides`; core controller/route/service factories)
-- [x] T3 Extract the three hero background images from the design `index.html` base64 (`.bg-1/2/3`) into `cms/seed/home-hero/slide-{1,2,3}.jpg`
-- [x] T4 Add `cms/src/bootstrap/homepage.ts`: idempotent public `find` permission grant + seed-if-empty (upload images, create the 3 design slides); wire `setupHomepage(strapi)` into `cms/src/index.ts` bootstrap
-- [x] T5 Manually verify `GET /api/homepage?populate…` against local Strapi (unauthenticated): 200, three slides, image url/width/height present; confirm a second boot doesn't duplicate seed data. Record the response shape here. **Verified 2026-09-27** against the running local Strapi/Postgres: unauthenticated `GET /api/homepage?populate[heroSlides][populate]=image` → 200 with `data: { id, documentId, createdAt, updatedAt, publishedAt, heroSlides: [{ id, headline, subtext: null, ctaLabel, ctaHref, image: { url: "/uploads/slide_N_<hash>.jpg", width, height, alternativeText: "", … } }] }`, 3 slides in design order; a reload kept the same `documentId` and 3 slides (no duplicate seed/uploads); public `PUT`/`DELETE /api/homepage` → 403 (AC4).
+- [x] T1 Add slide components — **changed 2026-09-28:** built as `shared.carousel-hero` (`Title`, `BackgroundImg`, `Button`) + `shared.button-cta` (`Text`, `LinkUrl`, `targetLink`) in the Content-Type Builder; `home/hero-slide.json` is unused and to be removed
+- [x] T2 Add single type `cms/src/api/homepage/` (schema.json with `singleType`, `draftAndPublish: false`, repeatable `Hero` (was `heroSlides`); core controller/route/service factories)
+- [-] T3 *(Dropped 2026-09-28 — no seed)* Extract the three hero background images from the design `index.html` base64 (`.bg-1/2/3`) into `cms/seed/home-hero/slide-{1,2,3}.jpg`
+- [x] T4 Add `cms/src/bootstrap/homepage.ts`: idempotent public `find` permission grant (seed-if-empty dropped 2026-09-28); wire `setupHomepage(strapi)` into `cms/src/index.ts` bootstrap
+- [x] T5 Manually verify `GET /api/homepage?populate…` against local Strapi (unauthenticated): 200, three slides, image url/width/height present; Record the response shape here. *(Note 2026-09-28: the verification below was against the original `heroSlides` model and seed; re-verify against `Hero` with manually entered content.)* **Verified 2026-09-27** against the running local Strapi/Postgres: unauthenticated `GET /api/homepage?populate[heroSlides][populate]=image` → 200 with `data: { id, documentId, createdAt, updatedAt, publishedAt, heroSlides: [{ id, headline, subtext: null, ctaLabel, ctaHref, image: { url: "/uploads/slide_N_<hash>.jpg", width, height, alternativeText: "", … } }] }`, 3 slides in design order; a reload kept the same `documentId` and 3 slides (no duplicate seed/uploads); public `PUT`/`DELETE /api/homepage` → 403 (AC4).
 
 ## Frontend — data layer
 
