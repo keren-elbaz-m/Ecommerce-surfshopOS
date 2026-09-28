@@ -17,3 +17,17 @@ specs:
       - cms/src/bootstrap/homepage.ts
       - frontend/src/__tests__/components/home/hero/**
       - frontend/src/__tests__/lib/strapi/homepage.test.ts
+  - folder: 2026-09-28-product-content-model
+    slug: product-content-model
+    status: in-progress
+    branch: feat/storefront-catalog/product-content-model
+    covers:
+      - cms/src/api/category/**
+      - cms/src/api/subcategory/**
+      - cms/src/api/product/**
+      - cms/src/components/product/**
+      - cms/src/bootstrap/catalog.ts
+      - cms/src/bootstrap/public-permissions.ts
+      - cms/seed/catalog/**
+      - cms/scripts/seed-catalog.js
+      - cms/scripts/verify-catalog.mjs
