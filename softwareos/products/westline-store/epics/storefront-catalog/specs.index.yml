@@ -31,3 +31,12 @@ specs:
       - cms/seed/catalog/**
       - cms/scripts/seed-catalog.js
       - cms/scripts/verify-catalog.mjs
+  - folder: 2026-09-28-product-card
+    slug: product-card
+    status: in-progress
+    branch: feat/storefront-catalog/product-card
+    covers:
+      - frontend/src/shared/components/product-card/**
+      - frontend/src/lib/strapi/media.ts
+      - frontend/src/__tests__/shared/components/product-card/**
+      - frontend/src/__tests__/lib/strapi/media.test.ts
