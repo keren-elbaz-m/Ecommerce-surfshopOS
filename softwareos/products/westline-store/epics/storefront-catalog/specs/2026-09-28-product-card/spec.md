@@ -39,6 +39,7 @@ No page renders the card yet. Tests verify it, and catalog-listing-page will be 
    - the name as an `<h3>`
    - the price, formatted as USD with no cents for whole amounts (`$829`, `$79`) and two decimals otherwise (`$49.50`)
    - a 1px border and 9px radius, as in the design
+   - the card is a flex column filling its grid cell and the body grows to fill it, with the price row pinned to the bottom (`mt-auto`), so prices line up across a row when names wrap (catalog.html `.prod-card` / `.prod-body` / `.prod-foot`)
 5. AC5: With 2–4 images, the photos stack. Only the active one is visible, and it fades with a short opacity transition that is removed under reduced motion.
    - Photo dots ("Show photo N") appear bottom-center over the image. Clicking a dot shows that photo and sets `aria-current="true"` on that dot only.
    - With 1 image there are no dots. A card always has at least 1 image (AC1).
@@ -72,10 +73,10 @@ No page renders the card yet. Tests verify it, and catalog-listing-page will be 
 **Component (`frontend/src/shared/components/product-card/`)**
 - UI strings live in `product-card-texts.ts` (`texts`): `viewProduct(name)` ("View <name>"), `showPhoto(n)` ("Show photo N"), "Photos", "Add to wishlist" and "Remove from wishlist". `ProductCard` and `ProductCardMedia` import it. The product name, price and images are Strapi content, not texts. — the wishlist heart is `<Icon name="heart" />` from `@/shared/components/icons` (the local `HeartIcon` was removed).
 - `ProductCard.tsx` is the shell, with no `'use client'` and no server-only imports:
-  - `<article>` with `relative overflow-hidden rounded-[9px] border border-border bg-white`
+  - `<article>` with `relative flex h-full flex-col overflow-hidden rounded-[9px] border border-border bg-white`
   - an overlay `<Link href={card.href} className="absolute inset-0 z-[1]"><span className="sr-only">View {name}</span></Link>`
   - `<ProductCardMedia …/>`
-  - a body (`p-4`) with an `<h3 className="mb-1.5 text-base font-bold">` and a price `<span className="text-base">`
+  - a body (`flex flex-1 flex-col p-4`) with an `<h3 className="mb-1.5 text-base font-bold">` and a price row (`mt-auto flex …`) holding a `<span className="text-base">`
   - Props: `{ product: ProductCard; priority?: boolean; isFavorite?: boolean; onToggleFavorite?: (slug: string) => void }`
 - `ProductCardMedia.tsx` (`'use client'`) holds the active-index state:
   - Up to 4 `next/image` elements (`fill`, `sizes="(max-width: 520px) 100vw, (max-width: 1024px) 50vw, 25vw"`) with `object-contain` or `object-cover`. Inactive ones get `opacity-0`, with `transition-opacity duration-[250ms] motion-reduce:transition-none`.
@@ -111,3 +112,4 @@ No page renders the card yet. Tests verify it, and catalog-listing-page will be 
 | 2026-09-29 | Ori Chai Matan | change | Mapper + view type moved from `frontend/src/features/catalog/product-card.ts` to `frontend/src/shared/components/product-card/product-card.ts` (test: `frontend/src/__tests__/shared/components/product-card/product-card.test.ts`); `src/features/` removed — everything the card needs (component, view type, Strapi → card mapper) lives in one folder and is imported from one place | — |
 | 2026-09-29 | Ori Chai Matan | change | Aligned with the frontend/components standard: `toProductCard` builds `href` with `productHref` from `lib/routes.ts`; `media.ts` takes `STRAPI_URL` from `lib/strapi/client.ts`; `HeartIcon` in `ProductCardMedia` replaced by the shared `<Icon name="heart" />` (rendered SVG identical). No behavior change | frontend/components standard |
 | 2026-09-29 | Ori Chai Matan | change | Moved the card's UI strings into `shared/components/product-card/product-card-texts.ts` (`viewProduct`, `showPhoto` as functions); rendered text and aria attributes unchanged (ProductCard tests assert the literal strings and stay green) | frontend/components standard |
+| 2026-09-29 | Ori Chai Matan | change | AC4 + Technical Approach: price pinned to the card bottom (flex-column article `h-full`, body `flex-1`, price row `mt-auto`) — prices must line up across a catalog row when names wrap, as in catalog.html | catalog-listing-page |

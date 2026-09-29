@@ -25,3 +25,4 @@
 
 - [x] T9 Align with frontend/components: `productHref` from `lib/routes.ts`, `STRAPI_URL` from `lib/strapi/client.ts`, `HeartIcon` → shared `Icon`. 2026-09-29: card + mapper tests green; heart SVG output identical
 - [x] T10 Add `product-card-texts.ts` and use it in ProductCard and ProductCardMedia. 2026-09-29: card tests green with unchanged literal assertions
+- [x] T11 Pin the price to the bottom: flex-column article + flex-1 body + `mt-auto` price row in `ProductCard.tsx`; test the classes in `ProductCard.test.tsx`; full suite green. 2026-09-29: 181/181; live `/products` + `/products/category/clothing` HTML differs only in the card's three class strings (article, body, price row); `/` byte-identical

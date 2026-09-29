@@ -35,3 +35,4 @@
 
 - [x] T16 Align with frontend/components: PascalCase renames (+ tests), single return in `Hero`, `WAVES` JSX constant, `ArrowIcon` → shared `Icon`, `homepage.ts` → `strapiFetch`. 2026-09-29: 124/125 (pre-existing AC13 failure only), tsc + lint clean
 - [x] T17 Add `hero-texts.ts` and use it in HeroCarousel and HeroFallback. 2026-09-29: carousel suites green, live carousel HTML byte-identical; the pre-existing AC13 test (expects "Coming Soon") still fails as before
+- [x] T18 Align `fallbackMessage` to AC13 ('Coming Soon'); Hero AC13 test passes; full suite green. 2026-09-29: 181/181, `tsc` clean, lint clean (pre-existing font warning only)

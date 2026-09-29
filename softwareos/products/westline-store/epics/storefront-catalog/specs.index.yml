@@ -61,3 +61,16 @@ specs:
       - frontend/src/__tests__/lib/strapi/navigation.test.ts
       - frontend/src/__tests__/lib/strapi/client.test.ts
       - frontend/src/__tests__/lib/routes.test.ts
+  - folder: 2026-09-29-catalog-listing-page
+    slug: catalog-listing-page
+    status: in-progress
+    branch: feat/storefront-catalog/catalog-listing-page
+    covers:
+      - /products
+      - /products/category/*
+      - frontend/src/app/[locale]/products/page.tsx
+      - frontend/src/app/[locale]/products/category/**
+      - frontend/src/components/catalog/**
+      - frontend/src/lib/strapi/products.ts
+      - frontend/src/__tests__/components/catalog/**
+      - frontend/src/__tests__/lib/strapi/products.test.ts

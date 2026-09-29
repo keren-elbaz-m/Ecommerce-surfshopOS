@@ -22,3 +22,4 @@ Lets customers browse, search, filter, and sort WESTLINE's product catalog, and 
 | [2026-09-28-product-card](specs/2026-09-28-product-card/spec.md) | in-progress | feat/storefront-catalog/product-card |
 | [2026-09-29-button-cta](specs/2026-09-29-button-cta/spec.md) | in-progress | feat/storefront-catalog/button-cta |
 | [2026-09-29-site-nav](specs/2026-09-29-site-nav/spec.md) | in-progress | feat/storefront-catalog/site-nav |
+| [2026-09-29-catalog-listing-page](specs/2026-09-29-catalog-listing-page/spec.md) | in-progress | feat/storefront-catalog/catalog-listing-page |
