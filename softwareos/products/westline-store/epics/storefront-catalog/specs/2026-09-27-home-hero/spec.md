@@ -55,15 +55,16 @@ Replaces the Home page's "Coming Soon" placeholder with the design's full-bleed 
 
 **Next.js (frontend/)**. Next 14 App Router, Tailwind 3.
 - `frontend/src/lib/strapi/homepage.ts`:
-  - `getHomepageHero(): Promise<HeroSlide[]>` is server-only. It fetches with `STRAPI_URL` (the same env var and default as `src/app/api/auth/*/route.ts`) using `next: { revalidate: 60 }` (AC15).
-  - It normalizes the Strapi 5 flat response from `Hero[]` (`Title`, `BackgroundImg`, `Button.Text`, `Button.LinkUrl`) into `{ headline, image: { src, width, height }, ctaLabel, ctaHref }` and makes relative `/uploads/...` URLs absolute against `STRAPI_URL`.
+  - `getHomepageHero(): Promise<HeroSlide[]>` is server-only. It fetches through `strapiFetch` (`frontend/src/lib/strapi/client.ts`, owned by site-nav) with the default `revalidate: 60` (AC15) and 404 as a silent status.
+  - It normalizes the Strapi 5 flat response from `Hero[]` (`Title`, `BackgroundImg`, `Button.Text`, `Button.LinkUrl`) into `{ headline, image: { src, width, height }, cta }` (`cta` via button-cta's `toButtonCta`) and makes relative `/uploads/...` URLs absolute through `strapiMediaUrl`.
   - It returns `[]` and logs on network errors, non-2xx, 404 (no document) or malformed data, and drops slides missing a title, image (with width/height), button text or link (AC13).
 - `frontend/next.config.mjs` adds `images.remotePatterns` derived from `STRAPI_URL` (protocol, host, port, `/uploads/**`).
 - `frontend/src/components/home/hero/`:
-  - `hero.tsx` (server component): calls `getHomepageHero()` and renders `<HeroFallback/>` when there are no slides, otherwise `<HeroCarousel slides=…/>`.
-  - `hero-fallback.tsx`: the existing Coming Soon wordmark and `Waves`, moved here from the catch-all page.
-  - `hero-carousel.tsx` (`'use client'`): renders every slide in the markup for SSR (AC2), plus arrows, dots, the autoplay interval, hover/focus pause, swipe, `matchMedia` checks for reduced motion and hover, and the looping track with cloned first and last slides (the same approach as the design JS). Inactive slides get `aria-hidden` plus `inert` (AC11).
-  - `hero-slide.tsx`: presentational. It renders `next/image` with `fill`, `sizes="100vw"`, `priority` on index 0, and object-cover, plus the scrim, the headline (`h1` at index 0, `h2` otherwise) and a CTA. The CTA uses `next/link` for internal hrefs and a plain `<a>` for absolute URLs.
+  - `Hero.tsx` (server component): calls `getHomepageHero()` and returns `<HeroFallback/>` when there are no slides, otherwise `<HeroCarousel slides=…/>`, in a single return.
+  - `HeroFallback.tsx`: the existing Coming Soon wordmark and the waves, moved here from the catch-all page. The waves are a JSX constant (`WAVES`), not a component.
+  - `HeroCarousel.tsx` (`'use client'`): renders every slide in the markup for SSR (AC2), plus arrows, dots, the autoplay interval, hover/focus pause, swipe, `matchMedia` checks for reduced motion and hover, and the looping track with cloned first and last slides (the same approach as the design JS). Inactive slides get `aria-hidden` plus `inert` (AC11). The arrow icons are `<Icon name="arrow-left" | "arrow-right" />` from `@/shared/components/icons`.
+  - `HeroSlide.tsx`: presentational.
+  - UI strings live in `hero-texts.ts` (`texts`): the carousel's `aria-label` "Featured" and `aria-roledescription` "carousel", "Previous slide", "Next slide", the "Slides" group label, `slide(n)` ("Slide N"), and the fallback's wordmark and message. `HeroCarousel` and `HeroFallback` import it. The slide headlines and CTA text are Strapi content, not texts. It renders `next/image` with `fill`, `sizes="100vw"`, `priority` on index 0, and object-cover, plus the scrim, the headline (`h1` at index 0, `h2` otherwise) and a CTA rendered by `<ButtonCTA>` (button-cta).
   - Motion: Tailwind transition utilities with arbitrary values (`duration-[11s]`, `scale-[1.08]`) and `motion-reduce:` variants. Any extra keyframes go in `tailwind.config.ts`.
   - Height: `min-h-[calc(100vh-64px)]`, because the existing SiteNav is a sticky white 64px bar. The design's transparent overlay nav is out of scope.
 - `frontend/src/app/[locale]/[[...segments]]/page.tsx`: the Home branch renders `<Hero/>` in place of the inline Coming Soon markup. The page becomes `async`, and the `notFound()` guard is unchanged.
@@ -85,6 +86,7 @@ Replaces the Home page's "Coming Soon" placeholder with the design's full-bleed 
 ## Standards Applied
 
 - [global/git-workflow](../../../../../../standards/global/git-workflow.md): branch `feat/storefront-catalog/home-hero`, commit and PR conventions.
+- [frontend/components](../../../../../../standards/frontend/components.md): one component and one return per file, PascalCase components / kebab-case TS, all Strapi fetches via `lib/strapi/client.ts`, all URLs via `lib/routes.ts`.
 
 ## Changelog
 
@@ -92,3 +94,5 @@ Replaces the Home page's "Coming Soon" placeholder with the design's full-bleed 
 |---|---|---|---|---|
 | 2026-09-27 | Ori Chai Matan | created | Initial shaping | — |
 | 2026-09-28 | Ori Chai Matan | changed | Aligned spec with the built model: `homepage.Hero` (repeatable `shared.carousel-hero`: `Title`, `BackgroundImg`, `Button` → `shared.button-cta`: `Text`, `LinkUrl`) replaces `home.hero-slide`/`heroSlides`. Seed removed (AC3 dropped, `cms/seed/**` out of Covers); content entered manually in the admin. Subtext dropped (not in the design). Covers updated. | — |
+| 2026-09-29 | Ori Chai Matan | change | Aligned with the frontend/components standard: renamed `hero.tsx`→`Hero.tsx`, `hero-slide.tsx`→`HeroSlide.tsx`, `hero-carousel.tsx`→`HeroCarousel.tsx`, `hero-fallback.tsx`→`HeroFallback.tsx` (tests `hero.test.tsx`→`Hero.test.tsx`, `hero-carousel.test.tsx`→`HeroCarousel.test.tsx`); `Hero` has a single return; `Waves` is a JSX constant; the arrow `ArrowIcon` is replaced by the shared `Icon`; `homepage.ts` fetches via `strapiFetch`. No behavior change — hero CTA markup byte-identical, all tests unchanged apart from import paths | frontend/components standard |
+| 2026-09-29 | Ori Chai Matan | change | Moved the hero's hardcoded UI strings into `components/home/hero/hero-texts.ts` (`slide(n)` as a function); rendered text and aria attributes unchanged (live carousel HTML byte-identical); fallback message kept as the current "Something Wrong!" | frontend/components standard |

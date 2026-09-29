@@ -1,4 +1,4 @@
-# Standards for Product Card
+# Standards for Button CTA
 
 The following standards apply to this work.
 

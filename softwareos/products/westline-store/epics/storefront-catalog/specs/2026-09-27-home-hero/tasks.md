@@ -30,3 +30,8 @@
 
 - [~] T14 Run the full frontend test suite + coverage on changed files (testing skill); `npm run lint` and `npm run build` pass. 2026-09-27: 54/54 tests pass, lint clean (one pre-existing warning in `layout.tsx`), `tsc --noEmit` clean in frontend + cms; `next build` not yet run (it would clobber the running `next dev` `.next/`); coverage not yet collected
 - [ ] T15 Run QA against acceptance criteria (qa skill), including manual browser checks for AC5/AC6/AC9/AC14/AC15 and the Strapi-down fallback (AC13)
+
+## Tidy-up (frontend/components standard)
+
+- [x] T16 Align with frontend/components: PascalCase renames (+ tests), single return in `Hero`, `WAVES` JSX constant, `ArrowIcon` → shared `Icon`, `homepage.ts` → `strapiFetch`. 2026-09-29: 124/125 (pre-existing AC13 failure only), tsc + lint clean
+- [x] T17 Add `hero-texts.ts` and use it in HeroCarousel and HeroFallback. 2026-09-29: carousel suites green, live carousel HTML byte-identical; the pre-existing AC13 test (expects "Coming Soon") still fails as before

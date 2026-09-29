@@ -28,7 +28,7 @@ No page renders the card yet. Tests verify it, and catalog-listing-page will be 
 ## Acceptance Criteria
 
 1. AC1: `toProductCard(product)` in `frontend/src/shared/components/product-card/product-card.ts` maps a Strapi REST Product (`Name`, `Slug`, `Price`, `Images[]`, `Category.Slug`) to `ProductCard`:
-   - `{ slug, name, price, href: '/products/<slug>', images: { src, width, height }[], imageFit: 'contain' | 'cover' }`
+   - `{ slug, name, price, href: productHref(slug) /* '/products/<slug>', from lib/routes.ts */, images: { src, width, height }[], imageFit: 'contain' | 'cover' }`
    - It keeps at most the first 4 images, in order.
    - `Price` is coerced with `Number()`, because Strapi decimals can arrive as strings with Postgres (`"829.00"` → 829 → `$829`).
    - It returns `null` when `Name` or `Slug` is missing, when `Price` doesn't coerce to a finite number, or when `Images` is empty or missing. Images are required in Strapi, so the card has no empty-image state.
@@ -65,11 +65,12 @@ No page renders the card yet. Tests verify it, and catalog-listing-page will be 
 - Callers fetch with `populate[Images][fields][0..2]=url,width,height&populate[Category][fields][0]=Slug`. The listing spec owns fetching; this spec only documents the populate it needs.
 
 **URL helper (`frontend/src/lib/strapi/media.ts`)**
-- `strapiMediaUrl(url)`: a relative `/…` URL gets `STRAPI_URL` (default `http://localhost:1337`, same as `homepage.ts`) prefixed; anything else is returned as is.
+- `strapiMediaUrl(url)`: a relative `/…` URL gets `STRAPI_URL` (imported from `frontend/src/lib/strapi/client.ts`) prefixed; anything else is returned as is.
 - This file is server-and-client safe: `STRAPI_URL` is only read on the server during mapping, and the mapper runs where the data is fetched.
 - `frontend/src/lib/strapi/homepage.ts` (owned by home-hero) imports `strapiMediaUrl` and its local `absoluteUrl` is removed. Its behavior doesn't change, and `homepage.test.ts` plus the hero tests must stay green.
 
 **Component (`frontend/src/shared/components/product-card/`)**
+- UI strings live in `product-card-texts.ts` (`texts`): `viewProduct(name)` ("View <name>"), `showPhoto(n)` ("Show photo N"), "Photos", "Add to wishlist" and "Remove from wishlist". `ProductCard` and `ProductCardMedia` import it. The product name, price and images are Strapi content, not texts. — the wishlist heart is `<Icon name="heart" />` from `@/shared/components/icons` (the local `HeartIcon` was removed).
 - `ProductCard.tsx` is the shell, with no `'use client'` and no server-only imports:
   - `<article>` with `relative overflow-hidden rounded-[9px] border border-border bg-white`
   - an overlay `<Link href={card.href} className="absolute inset-0 z-[1]"><span className="sr-only">View {name}</span></Link>`
@@ -100,6 +101,7 @@ No page renders the card yet. Tests verify it, and catalog-listing-page will be 
 ## Standards Applied
 
 - [global/git-workflow](../../../../../../standards/global/git-workflow.md): branch `feat/storefront-catalog/product-card`, commit and PR conventions.
+- [frontend/components](../../../../../../standards/frontend/components.md): one component and one return per file, PascalCase components / kebab-case TS, all Strapi fetches via `lib/strapi/client.ts`, all URLs via `lib/routes.ts`.
 
 ## Changelog
 
@@ -107,3 +109,5 @@ No page renders the card yet. Tests verify it, and catalog-listing-page will be 
 |---|---|---|---|---|
 | 2026-09-28 | Ori Chai Matan | created | Initial shaping | — |
 | 2026-09-29 | Ori Chai Matan | change | Mapper + view type moved from `frontend/src/features/catalog/product-card.ts` to `frontend/src/shared/components/product-card/product-card.ts` (test: `frontend/src/__tests__/shared/components/product-card/product-card.test.ts`); `src/features/` removed — everything the card needs (component, view type, Strapi → card mapper) lives in one folder and is imported from one place | — |
+| 2026-09-29 | Ori Chai Matan | change | Aligned with the frontend/components standard: `toProductCard` builds `href` with `productHref` from `lib/routes.ts`; `media.ts` takes `STRAPI_URL` from `lib/strapi/client.ts`; `HeartIcon` in `ProductCardMedia` replaced by the shared `<Icon name="heart" />` (rendered SVG identical). No behavior change | frontend/components standard |
+| 2026-09-29 | Ori Chai Matan | change | Moved the card's UI strings into `shared/components/product-card/product-card-texts.ts` (`viewProduct`, `showPhoto` as functions); rendered text and aria attributes unchanged (ProductCard tests assert the literal strings and stay green) | frontend/components standard |

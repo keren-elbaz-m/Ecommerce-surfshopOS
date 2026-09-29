@@ -20,7 +20,7 @@ Categorization is a **flat two-level model** — every product has exactly one m
 ## Acceptance Criteria
 
 1. AC1: `Category` (`api::category.category`) is a flat collection type: `Name` (string, required), `Slug` (uid from `Name`, required). No self-relation (no `Parent`/`Children`).
-2. AC2: `Subcategory` (`api::subcategory.subcategory`) is a collection type: `Name` (string, required), `Slug` (uid from `Name`, required), `Category` (manyToOne → Category, required, inverse `Subcategories`) — every subcategory belongs to exactly one category.
+2. AC2: `Subcategory` (`api::subcategory.subcategory`) is a collection type: `Name` (string, required), `Slug` (uid from `Name`, required), `NavLabel` (string, optional — the short menu label site-nav shows, falls back to `Name`), `Category` (manyToOne → Category, required, inverse `Subcategories`) — every subcategory belongs to exactly one category.
 3. AC3: `Product` (`api::product.product`) has `Category` (manyToOne → Category, required — exactly one main category) and `Subcategories` (manyToMany → Subcategory, optional — zero or more).
 4. AC4: `Product` also carries `Price` (decimal, required, min 0), `Images` (media, multiple, required, images only), `Subtitle` (string, optional), `Description` (richtext, required) and `Featured` (boolean, default false).
 5. AC5: `Product.Sizes` is a required repeatable component (`product.size`, min 1: `Label`, `Stock`, optional `LengthIn`/`VolumeL`). `Product.SurfboardSpecs` is an optional single component (`product.surfboard-specs`: `SkillLevel`, `FinSetup`, `FinSetupNote`, and eight 0–100 attribute scales) — set only on surfboard products.
@@ -60,3 +60,4 @@ Categorization is a **flat two-level model** — every product has exactly one m
 | Date | Author | Type | Change | Ref |
 |---|---|---|---|---|
 | 2026-09-28 | Ori Chai Matan | created | Spec written to match the built model (Category + Subcategory collection types, Product relations, consistency lifecycle hook, seed, verify:catalog) — see Overview for why a flat two-level model replaced the originally-considered self-referencing Category tree. | — |
+| 2026-09-29 | Ori Chai Matan | change | Added optional `Subcategory.NavLabel` (string) for site-nav's short menu labels (e.g. "Shorts" under Men, "Men" under Wetsuits; falls back to `Name`); seeded for the 8 wetsuit/clothing subcategories | 2026-09-29-site-nav |

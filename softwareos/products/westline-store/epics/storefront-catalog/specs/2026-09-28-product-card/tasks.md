@@ -20,3 +20,8 @@
 
 - [~] T7 Run the full frontend suite + coverage on changed files (testing skill); `npm run lint` and `tsc --noEmit` pass. **2026-09-28:** 75/76 pass; the one failure is pre-existing and outside this spec (`hero.test.tsx` AC13 expects "Coming Soon" but home-hero's fallback says "Something Wrong!" since 55de6d6, and it fails on 09caffb too); lint clean (pre-existing font warning), `tsc` clean. **Open:** coverage — no `@vitest/coverage-v8` installed
 - [ ] T8 Run QA against acceptance criteria (qa skill) — visual comparison against the design happens here via a test render; the first real page render comes with catalog-listing-page
+
+## Tidy-up (frontend/components standard)
+
+- [x] T9 Align with frontend/components: `productHref` from `lib/routes.ts`, `STRAPI_URL` from `lib/strapi/client.ts`, `HeartIcon` → shared `Icon`. 2026-09-29: card + mapper tests green; heart SVG output identical
+- [x] T10 Add `product-card-texts.ts` and use it in ProductCard and ProductCardMedia. 2026-09-29: card tests green with unchanged literal assertions

@@ -1,4 +1,4 @@
-# Standards for Product Card
+# Standards for Site Nav
 
 The following standards apply to this work.
 
