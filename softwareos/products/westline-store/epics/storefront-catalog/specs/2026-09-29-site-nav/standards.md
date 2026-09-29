@@ -99,7 +99,6 @@ UI strings live in a `<name>-texts.ts` next to the component. Interpolated strin
 - **Every UI string goes there,** including visible text and all accessible names and descriptions (`aria-label`, `aria-roledescription`, visually hidden text).
 - **Interpolated strings are functions,** for example `allCategory(name)`, `toggleSubmenu(item)`, `slide(n)`, `viewProduct(name)` and `showPhoto(n)`. Don't build them with inline template literals in components.
 - **CMS content never goes in texts files.** Category, subcategory and product names, hero titles and button text all come from Strapi.
-- **Shared routing labels stay in `lib/routes.ts`.** The `NAV_GROUPS` labels (Clothing / Men / Women) are part of the URL model that catalog-listing-page reuses.
 - A component that renders only props and CMS data, such as `ButtonCTA`, needs no texts file.
 - Tests may import `texts` rather than repeating strings. Asserting the literal rendered string is also fine, and it's stricter.
 
@@ -112,7 +111,7 @@ UI strings live in a `<name>-texts.ts` next to the component. Interpolated strin
 | `shared/components/<name>/` | Reusable UI building blocks rendered in many places (product-card, button-cta, icons). |
 | `lib/strapi/client.ts` | `STRAPI_URL` and `strapiFetch`: the **only** place that calls Strapi. |
 | `lib/strapi/<resource>.ts` | One server-side data function per resource (`homepage.ts`, `navigation.ts`), built on `strapiFetch`. |
-| `lib/routes.ts` | **Every** storefront URL: `productHref`, `categoryHref`, `subcategoryHref`, `NAV_GROUPS`, and fixed links such as `CART_HREF`. |
+| `lib/routes.ts` | **Every** storefront URL: `productHref`, `categoryHref`, `subcategoryHref`, `genderHref`, `subcategoryGenderHref`, `GENDERS`, `GENDER_FILTER`, `GENDERED_CATEGORY_SLUGS`, and fixed links such as `CART_HREF`. |
 
 A component's view type and its Strapi → view mapper live **in the component's folder** (for example `shared/components/product-card/product-card.ts`), not in a separate `features/` directory.
 
@@ -127,5 +126,5 @@ A component's view type and its Strapi → view mapper live **in the component's
 ## URLs: `lib/routes.ts`
 
 - Don't write a storefront URL as a string literal in a component or mapper. Import a builder or constant from `@/lib/routes`.
-- Reserved slugs: the product slug `category` (it shares `/products/<slug>` with `/products/category/…`) and every `NAV_GROUPS` slug (it shares `/products/category/<slug>`).
+- Reserved slug: the product slug `category` (it shares `/products/<slug>` with `/products/category/…`).
 - Pages that serve these URLs (catalog-listing-page, product-detail-page) must match them.

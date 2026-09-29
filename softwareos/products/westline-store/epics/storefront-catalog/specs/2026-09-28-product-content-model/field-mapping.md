@@ -71,6 +71,7 @@ Exact Strapi field names (as built in the Content-Type Builder), for anyone writ
 
 ## Seed reference (`cms/seed/catalog/catalog.json`)
 
-- **5 categories**: Surfboards, Accessories, Wetsuits, Men's Clothing, Women's Clothing.
-- **17 subcategories** — Surfboards: Performance Shortboard, Longboard, Fish & Twinfin, Fun Board, Soft-top / Beginner (5) · Accessories: Fins, Leashes, Traction, Travel Bags (4) · Wetsuits: Men's Wetsuits, Women's Wetsuits (2) · Men's Clothing: Men's T-Shirts & Tanks, Men's Shorts, Men's Boardshorts (3) · Women's Clothing: Women's Tops, Women's Shorts, Women's Swimmers (3).
+- **4 categories**: Surfboards, Accessories, Wetsuits, Clothing.
+- **16 subcategories** — Surfboards: Performance Shortboard, Longboard, Fish & Twinfin, Fun Board, Soft-top / Beginner (5) · Accessories: Fins, Leashes, Traction, Travel Bags (4) · Wetsuits: Men's Wetsuits, Women's Wetsuits (2, NavLabel "Men" / "Women") · Clothing: T-Shirts & Tanks, Shorts, Boardshorts, Tops, Swimmers (5, no gender duplicates).
+- **Gender** (Clothing only): the design's Clothing → Men / Women split is now `Product.Gender` — Samurai Pro + Boardwalk Hybrid Shorts Men, Tidal Rash Guard Women, Archive Team Tee Unisex. Men/Women filters include Unisex.
 - **17 products**, each with a `CategorySlug` and zero or more `SubcategorySlugs`. Notably: `soft-cruiser-8-0-longboard` has two (`longboard`, `soft-top-beginner`) — the multi-subcategory case AC8/AC9 verify. `horizon-snapback-cap` has a `Category` (`accessories`) and no `SubcategorySlugs` — the no-subcategory case.
