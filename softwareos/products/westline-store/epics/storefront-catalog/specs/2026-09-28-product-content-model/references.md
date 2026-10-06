@@ -27,3 +27,8 @@ _None. No meeting write-ups exist yet._
 - **Location:** `cms/scripts/seed-catalog.js`, `cms/scripts/verify-catalog.mjs`
 - **Relevance:** neither runs at Strapi boot (unlike `homepage`'s original seed attempt) — both are standalone scripts using `createStrapi(await compileStrapi()).load()` / `.destroy()`, safe to run against a live `strapi develop` since they talk to the same Postgres database.
 - **Key patterns:** `strapi.documents(uid).findFirst({ filters: { Slug } })` before every create (idempotent reruns); explicit `process.exit(0)` after `.then()` — Strapi leaves background timers running after `destroy()`, and one firing after the DB pool is gone crashes the process with a Knex timeout even though the script already finished its work.
+
+## Size model (2026-10-01)
+
+- **[Related]** [2026-09-29-catalog-listing-page](../2026-09-29-catalog-listing-page/spec.md) — owns `frontend/src/lib/strapi/products.ts`, deliberately left unchanged: the listing doesn't fetch sizes. The size types and formatters live in `frontend/src/lib/strapi/sizes.ts` (this spec) for product-detail-page / surfboard-finder to import.
+- **Conditional Fields (Strapi 5.54.0)** — `@strapi/types/dist/schema/attribute/base.d.ts` (`conditions.visible`, JSON Logic); admin drops hidden fields from the save payload (`content-manager/dist/admin/pages/EditView/utils/data.mjs`, `collectInvisibleAttributes`); the server entity validator skips all validation for a hidden field (`core/dist/services/entity-validator/index.mjs`) — why the size rules live in the lifecycle hook and stale entries are cleared by a document middleware.

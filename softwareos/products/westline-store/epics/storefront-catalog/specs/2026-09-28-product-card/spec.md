@@ -40,8 +40,10 @@ No page renders the card yet. Tests verify it, and catalog-listing-page will be 
    - the price, formatted as USD with no cents for whole amounts (`$829`, `$79`) and two decimals otherwise (`$49.50`)
    - a 1px border and 9px radius, as in the design
    - the card is a flex column filling its grid cell and the body grows to fill it, with the price row pinned to the bottom (`mt-auto`), so prices line up across a row when names wrap (catalog.html `.prod-card` / `.prod-body` / `.prod-foot`)
+   - on hover and when focus is inside it, the card gets a subtle shadow (`0 8px 24px rgba(16,24,40,.08)`) with a short transition, removed under reduced motion
 5. AC5: With 2–4 images, the photos stack. Only the active one is visible, and it fades with a short opacity transition that is removed under reduced motion.
    - Photo dots ("Show photo N") appear bottom-center over the image. Clicking a dot shows that photo and sets `aria-current="true"` on that dot only.
+   - On devices with real hover (`@media (hover: hover) and (pointer: fine)`), the dots are hidden at rest and fade in while the card is hovered or focus is inside it. On touch devices they're always visible. They're hidden with opacity only, so they stay in the DOM and focusable, and the layout never shifts. **Design deviation:** index.html shows the dots at all times.
    - With 1 image there are no dots. A card always has at least 1 image (AC1).
    - The card never shows more than 4 photos or dots, even if given more.
 6. AC6: The first photo has `alt` = the product name. Extra photos have `alt=""`. Only the first photo can load with priority (via a `priority` prop), and the rest lazy-load.
@@ -73,18 +75,19 @@ No page renders the card yet. Tests verify it, and catalog-listing-page will be 
 **Component (`frontend/src/shared/components/product-card/`)**
 - UI strings live in `product-card-texts.ts` (`texts`): `viewProduct(name)` ("View <name>"), `showPhoto(n)` ("Show photo N"), "Photos", "Add to wishlist" and "Remove from wishlist". `ProductCard` and `ProductCardMedia` import it. The product name, price and images are Strapi content, not texts. — the wishlist heart is `<Icon name="heart" />` from `@/shared/components/icons` (the local `HeartIcon` was removed).
 - `ProductCard.tsx` is the shell, with no `'use client'` and no server-only imports:
-  - `<article>` with `relative flex h-full flex-col overflow-hidden rounded-[9px] border border-border bg-white`
+  - `<article>` with `group/card relative flex h-full flex-col overflow-hidden rounded-[9px] border border-border bg-white transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(16,24,40,.08)] focus-within:shadow-[0_8px_24px_rgba(16,24,40,.08)] motion-reduce:transition-none`
   - an overlay `<Link href={card.href} className="absolute inset-0 z-[1]"><span className="sr-only">View {name}</span></Link>`
   - `<ProductCardMedia …/>`
   - a body (`flex flex-1 flex-col p-4`) with an `<h3 className="mb-1.5 text-base font-bold">` and a price row (`mt-auto flex …`) holding a `<span className="text-base">`
   - Props: `{ product: ProductCard; priority?: boolean; isFavorite?: boolean; onToggleFavorite?: (slug: string) => void }`
 - `ProductCardMedia.tsx` (`'use client'`) holds the active-index state:
   - Up to 4 `next/image` elements (`fill`, `sizes="(max-width: 520px) 100vw, (max-width: 1024px) 50vw, 25vw"`) with `object-contain` or `object-cover`. Inactive ones get `opacity-0`, with `transition-opacity duration-[250ms] motion-reduce:transition-none`.
-  - Dots only when there are 2 or more images (`aria-label="Show photo N"`, `aria-current`). They're styled like the design: a pill container, bg white/85, with the active dot a wide 22px pill in ink.
+  - Dots only when there are 2 or more images (`aria-label="Show photo N"`, `aria-current`). They're styled like the design: a pill container, bg white/85, with the active dot a wide 22px pill in ink. The container carries `DOTS_REVEAL`: `transition-opacity duration-200 motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:opacity-0 [@media(hover:hover)_and_(pointer:fine)]:group-hover/card:opacity-100 group-focus-within/card:opacity-100`. A named group (`group/card`) is used because the heart button already uses the unnamed `group`.
   - The heart button only when both favorite props are present.
   - The dots and heart are `z-[2]` so they sit above the overlay link.
 - `index.ts` re-exports `ProductCard`.
-- The heart SVG path is copied from the design. Colors use the existing Tailwind tokens (`ink`, `horizon`, `border`) and `#F9F9F9` for the media background.
+- The heart SVG path is copied from the design. Colors use the existing Tailwind tokens (`ink`, `horizon`, `border`) and the page background token `bg-background` for the media background.
+- **Design deviations from index.html:** the dots are hover/focus-revealed on fine-pointer hover devices (AC5), and the card has a hover/focus shadow (AC4).
 
 **Tests (TDD, `frontend/src/__tests__/…`)**
 - `lib/strapi/media.test.ts` and `shared/components/product-card/product-card.test.ts` (node environment): AC1–AC3 and `formatPrice`.
@@ -113,3 +116,7 @@ No page renders the card yet. Tests verify it, and catalog-listing-page will be 
 | 2026-09-29 | Ori Chai Matan | change | Aligned with the frontend/components standard: `toProductCard` builds `href` with `productHref` from `lib/routes.ts`; `media.ts` takes `STRAPI_URL` from `lib/strapi/client.ts`; `HeartIcon` in `ProductCardMedia` replaced by the shared `<Icon name="heart" />` (rendered SVG identical). No behavior change | frontend/components standard |
 | 2026-09-29 | Ori Chai Matan | change | Moved the card's UI strings into `shared/components/product-card/product-card-texts.ts` (`viewProduct`, `showPhoto` as functions); rendered text and aria attributes unchanged (ProductCard tests assert the literal strings and stay green) | frontend/components standard |
 | 2026-09-29 | Ori Chai Matan | change | AC4 + Technical Approach: price pinned to the card bottom (flex-column article `h-full`, body `flex-1`, price row `mt-auto`) — prices must line up across a catalog row when names wrap, as in catalog.html | catalog-listing-page |
+| 2026-09-29 | Ori Chai Matan | change | AC4/AC5: the dots are hover/focus-revealed only on real-hover devices (opacity, still focusable; always visible on touch), plus a subtle hover/focus-within card shadow — a cleaner card at rest on desktop; touch has no hover, so the dots stay visible there (design deviation from index.html) | — |
+| 2026-10-06 | Ori Chai Matan | change | `formatPrice` is now also imported by surfboard-detail-page (`components/product-detail/surfboard-detail.ts`). No behavior change | surfboard-detail-page |
+| 2026-10-06 | Ori Chai Matan | change | Size model change (product-content-model: `LengthIn` → `LengthFt` + `LengthInches`): no change to the card. It doesn't request or show sizes, so nothing on it reads the board length | product-content-model |
+| 2026-10-06 | Ori Chai Matan | change | Media frame background: `bg-[#F9F9F9]` → the page background token `bg-background`, matching the surfboard detail page. The frame is still a fixed `aspect-[4/5]`, so photos don't jump (measured on 6 multi-photo cards) | surfboard-detail-page |

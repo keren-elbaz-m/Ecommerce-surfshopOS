@@ -23,7 +23,7 @@ It's not in the tech plan's Candidate Specs: it's a reuse refactor, so upcoming 
 
 1. AC1: `ButtonCTA` (`frontend/src/shared/components/button-cta/ButtonCTA.tsx`, exported from `index.ts`) takes:
    - `text`
-   - `href`
+   - `href?` (see AC9 for the no-href button mode)
    - `target` (`'_self' | '_blank'`, default `'_self'`)
    - `size` (`'sm' | 'md' | 'lg'`, default `'md'`)
    - `tabIndex?`
@@ -44,6 +44,7 @@ It's not in the tech plan's Candidate Specs: it's a reuse refactor, so upcoming 
    - Inactive and cloned slides still pass `tabIndex={-1}`.
    - The existing hero and homepage tests stay green, with fixtures updated only for the new `cta` shape.
    - A slide whose Strapi button has `targetLink: _blank` opens in a new tab.
+9. AC9: Without `href`, `ButtonCTA` renders an action `<button type="button">` with the same classes as the link at the same `size`, plus `disabled:cursor-not-allowed disabled:bg-muted`. It takes `onClick?` and `disabled?`; a disabled button ignores clicks. `target` and `onClick`/`disabled` are mutually exclusive at the type level (link vs button). Link rendering (AC1–AC5) is unchanged.
 
 ## Technical Approach
 
@@ -97,3 +98,4 @@ It's not in the tech plan's Candidate Specs: it's a reuse refactor, so upcoming 
 |---|---|---|---|---|
 | 2026-09-29 | Ori Chai Matan | created | Initial shaping | — |
 | 2026-09-29 | Ori Chai Matan | change | Path references updated for home-hero's PascalCase renames (`hero-slide.tsx`→`HeroSlide.tsx`, `hero(-carousel).test.tsx`→`Hero(Carousel).test.tsx`); ButtonCTA itself already meets the frontend/components standard (one component, one return). No code or behavior change here | frontend/components standard |
+| 2026-10-06 | Ori Chai Matan | change | AC9 added: no-`href` button mode (`<button type="button">`, `onClick`, `disabled`, same classes plus disabled styling), so action CTAs share the styling. First user: surfboard-detail-page's Add to Cart / Sold out. Link mode and the hero unchanged (all existing ButtonCTA tests green) | surfboard-detail-page |
