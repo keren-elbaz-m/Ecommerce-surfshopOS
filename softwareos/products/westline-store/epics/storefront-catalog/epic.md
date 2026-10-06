@@ -17,3 +17,5 @@ Lets customers browse, search, filter, and sort WESTLINE's product catalog, and 
 
 | Spec | Status | Branch |
 |---|---|---|
+| [2026-09-27-home-hero](specs/2026-09-27-home-hero/spec.md) | in-progress | feat/storefront-catalog/home-hero |
+| [2026-09-28-product-content-model](specs/2026-09-28-product-content-model/spec.md) | in-progress | feat/storefront-catalog/product-content-model |
