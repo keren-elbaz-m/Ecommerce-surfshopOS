@@ -7,7 +7,7 @@
 
 ## Overview
 
-A server-rendered product detail page at `/products/<productSlug>`, the URL every ProductCard already links to. It is for **surfboards** (`SizeType = Surfboard`). Other products 404 until a separate apparel page spec adds them. This is the tech plan's `product-detail-page` candidate, split by product type. It is the "open a product detail page" step of the brief's success path.
+A server-rendered product detail page at `/products/<productSlug>`, the URL every ProductCard already links to. It is for **surfboards** (`SizeType = Surfboard`). Other products (`SizeType = Standard`) are rendered by [standard-product-detail-page](../2026-10-07-standard-product-detail-page/spec.md). This is the tech plan's `product-detail-page` candidate, split by product type. It is the "open a product detail page" step of the brief's success path.
 
 The page has three columns:
 - **Description:** the category eyebrow, the H1, the shaper video, the Description with Read more, and 12 attribute scales.
@@ -248,7 +248,7 @@ Design source: `westline-site-desing/product-surfboard-tideline.html`. It is mat
 
 ## Out of Scope
 
-- **The apparel/standard product page** (SizeType Standard). It is a separate spec, and those slugs 404 until then.
+- **The apparel/standard product page** (SizeType Standard). It is covered by [standard-product-detail-page](../2026-10-07-standard-product-detail-page/spec.md).
 - **Add-to-cart behaviour,** the cart drawer and the header count. These belong to the add-to-cart spec.
 - **Hidden design features:**
   - the fin setup (diagram, label, blurb, FinSetupNote)
@@ -282,3 +282,4 @@ Design source: `westline-site-desing/product-surfboard-tideline.html`. It is mat
 | 2026-10-06 | Ori Chai Matan | change | AC11: Add to Cart uses the shared `ButtonCTA` (new button mode, button-cta AC9) instead of a page-local button, so CTA styling lives in one place. Small visual shift from the design's `.btn-add-cart`: 14px text, `.02em` tracking and a 2px transparent border (the ButtonCTA `md` style) instead of 13.5px / `.03em` / no border | button-cta |
 | 2026-10-06 | Ori Chai Matan | change | AC7/AC8: gallery frame is fixed (column width × `74vh`, next/image `fill` + `object-contain`) instead of sizing from the photo, so nothing jumps when switching photos; frame and lightbox photo box use the page background token `bg-background` (was hard-coded `#F9F9F9`, the design's page colour). Browser check at 1440/1100/900/390 on ci-pro, big-happy, fever: frame, image centre, prev/next, buy panel, description and the lightbox stage/arrows/counter are identical for every photo. ProductCard (fixed `aspect-[4/5]`) has no jump. Noted: mikey-february-s-shorty's two photos have a baked-in `#F9F9F9` background that shows as a light box on the white page | — |
 | 2026-10-06 | Ori Chai Matan | change | `mikey-february-s-shorty`'s two photos (Media Library ids 71 and 72): their baked-in `#F9F9F9` background was made transparent by an edge flood fill (tolerance 10, so the white board interior inside the dark rail is kept), with a 2px colour-to-alpha un-mix on the anti-aliased edge so there is no halo. Same dimensions, PNG with alpha. Replaced in place (same ids, relations and order); originals kept as `seed/catalog/images-local/mikey-february-s-shorty/{1,2}.png.orig`. Verified at 1440 and 390: no grey box, clean nose and rails | — |
+| 2026-10-07 | Ori Chai Matan | change | Shared with standard-product-detail-page, with no behaviour change. The 3-column markup moved from `ProductDetailPage` into `product-detail/surfboard/SurfboardDetail.tsx`, and the surfboard files moved into `product-detail/surfboard/`. The breadcrumb (`buildBreadcrumb` + `ProductBreadcrumb`), the lightbox (`PhotoLightbox`, controlled by `SurfboardGallery`), the trust list (`TrustList`) and the unavailable state (`ProductUnavailable`) moved into `product-detail/shared/`. `ProductDetailPage` now switches on `SizeType`, so Standard products render instead of 404ing. Surfboard tests pass unchanged except import paths; "404s for a non-surfboard product" became "404s for a product type no layout renders". The query also requests `Gender` and `StandardSizes` | standard-product-detail-page |
