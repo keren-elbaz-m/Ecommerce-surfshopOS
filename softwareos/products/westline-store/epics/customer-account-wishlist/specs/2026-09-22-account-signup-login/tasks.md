@@ -7,7 +7,7 @@
 ## Backend — Strapi auth config
 
 - [x] T1 Configure `cms/config/middlewares.ts` `strapi::cors` to allow the `web` origin with `credentials: true` (read origin from a new `CLIENT_URL` env var, default `http://localhost:3000`); add `CLIENT_URL` to `cms/.env` and `cms/.env.example`
-- [x] T2 Review `cms/config/plugins.ts` users-permissions config for signup/login: confirm `jwtManagement: 'refresh'` and `sessions.httpOnly: true` are sufficient for AC1/AC4, and set a sane JWT expiry if the default is too long/short for a demo session
+- [~] T2 Review `cms/config/plugins.ts` users-permissions config for signup/login: confirm `jwtManagement: 'refresh'` and `sessions.httpOnly: true` are sufficient for AC1/AC4, and set a sane JWT expiry if the default is too long/short for a demo session **Reopened 2026-10-10 (hotfix):** `'refresh'` was not sufficient — 10-minute access tokens with no refresh flow. Now `'legacy-support'` (30-day JWT) with a matching cookie `maxAge`; re-verify login, register, reset-password and Google sign-in against it
 - [x] T3 Manually verify Strapi's built-in `/api/auth/local/register` and `/api/auth/local` endpoints against a local Strapi instance (Postman/curl): confirm duplicate-email register returns a distinct error (feeds AC2) and bad-credentials login returns a distinct error (feeds AC5) — no code change, just confirms the response shapes T7/T9 will rely on. **Verified 2026-09-22** against a running local Postgres/Strapi instance: register and login succeed end-to-end (real JWTs returned, `up_users.provider` column present, passwords stored as bcrypt hashes).
 
 ## Frontend — session plumbing

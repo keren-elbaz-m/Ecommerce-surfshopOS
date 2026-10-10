@@ -21,4 +21,4 @@ Adds new Strapi content types (Product and related types, e.g. category/attribut
 - `catalog-listing-page` — Next.js SSR catalog page that fetches and renders the product grid from Strapi (pagination, basic layout, category browsing); no search/filter/sort yet.
 - `catalog-search-filter-sort` — adds search, category/attribute filters, and sort as query params passed through to Strapi on the listing page.
 - `product-detail-page` — Next.js SSR product detail page (full info, images, attributes) fetched by slug/id from Strapi.
-- `add-to-cart` — client-side cart state (add/update quantity, item count in header) wired from both listing and detail pages, no persistence/checkout.
+- `add-to-cart` — client-side cart state (add/update quantity, item count in header) wired from both listing and detail pages, no persistence/checkout. → shaped as [2026-10-10-add-to-cart](specs/2026-10-10-add-to-cart/spec.md): persisted in Strapi, detail pages only (cards have no add button), includes the cart page.

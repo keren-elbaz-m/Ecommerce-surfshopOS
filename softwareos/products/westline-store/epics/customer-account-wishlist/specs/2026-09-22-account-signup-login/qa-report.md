@@ -4,6 +4,7 @@
 > Date: 2026-09-23 · QA by: Ori Chai Matan · Mode: setup
 > Verdict: PASS WITH NOTES
 > Stale: spec changed 2026-09-23 (Acceptance Criteria: AC12 reworded for the Resend email-provider swap; AC24-AC27 added for the welcome email) — rerun the qa skill
+> Stale: spec changed 2026-10-10 (hotfix: Technical Approach — `jwtManagement: 'legacy-support'`, 30-day session cookie, `getSession()` treats an expired token as signed out)
 
 ## Acceptance Criteria
 

@@ -18,7 +18,7 @@ Adds a new Order (and related line-item) content type/schema in Strapi to record
 
 ## Candidate Specs
 
-- `persistent-cart` — move cart state from client-only to persisted (localStorage/session-backed), with a viewable cart page for adjusting quantities and removing items.
+- `persistent-cart` — move cart state from client-only to persisted (localStorage/session-backed), with a viewable cart page for adjusting quantities and removing items. → delivered by storefront-catalog/[2026-10-10-add-to-cart](../storefront-catalog/specs/2026-10-10-add-to-cart/spec.md) (Strapi Cart, guest token + account merge). Checkout specs build on its cart API and own the cart tech debt (no cleanup of abandoned guest carts, no rate limit on cart creation).
 - `order-content-model-admin-view` — Order + line-item content type/schema in Strapi with validation, plus a basic admin-panel view so orders are inspectable.
 - `guest-checkout-flow` — checkout form (shipping/contact info, guest email) and mock payment step that submits the cart as a new Order in Strapi.
 - `order-confirmation` — confirmation page that reads the created order back from Strapi and displays the summary.
