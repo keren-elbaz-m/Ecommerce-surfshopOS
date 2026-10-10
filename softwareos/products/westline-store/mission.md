@@ -1,6 +1,8 @@
 # Product Mission
 
 > Customer: ../../customer/overview.md
+> Name: WESTLINE Store
+> Repos: web, cms
 
 ## Problem
 
