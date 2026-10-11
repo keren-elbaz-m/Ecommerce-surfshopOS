@@ -1,7 +1,7 @@
 # Cart & Checkout
 
 > Product: ../../mission.md
-> Status: planning
+> Status: in-progress
 > Created: 2026-09-15 · Roles planned: PM, Tech
 
 ## Summary
@@ -17,3 +17,4 @@ Builds on storefront-catalog's Add to Cart: a persistent cart page, checkout flo
 
 | Spec | Status | Branch |
 |---|---|---|
+| [2026-10-11-checkout](specs/2026-10-11-checkout/spec.md) | done | feat/cart-checkout/checkout |
