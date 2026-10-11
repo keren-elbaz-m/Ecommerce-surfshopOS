@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign In — WESTLINE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ink:#101828;
+    --white:#FFFFFF;
+    --surface-2:#F9F9F9;
+    --muted:#667085;
+    --border:#D0D5DD;
+    --horizon:#155EEF;
+    --horizon-deep:#0E40A3;
+    --horizon-ink:#F5F9FA;
+    --sand:#94A3B8;
+    --radius:9px;
+    --radius-pill:20px;
+    --maxw:1240px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:#F9F9F9;
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;}
+  a{color:inherit;}
+  button{font-family:inherit; cursor:pointer;}
+  .container{max-width:var(--maxw); margin-inline:auto; padding-inline:24px;}
+  @media (max-width:480px){ .container{padding-inline:16px;} }
+
+  .skip-link{
+    position:absolute; left:16px; top:-60px; background:var(--ink); color:#fff;
+    padding:10px 16px; border-radius:var(--radius); z-index:100; transition:top .15s;
+  }
+  .skip-link:focus{ top:16px; }
+
+  .display{
+    font-family:'Poppins',sans-serif; font-weight:800; text-transform:uppercase;
+    letter-spacing:0.01em; line-height:0.95; text-wrap:balance; margin:0;
+  }
+
+  /* NAV */
+  .site-nav{
+    position:sticky; top:0; left:0; right:0; z-index:50;
+    padding-block:14px; background:var(--white); border-bottom:1px solid var(--border);
+  }
+  .site-nav .container{display:flex; align-items:center; justify-content:space-between; gap:20px;}
+  .site-nav .word{
+    font-family:'Poppins',sans-serif; font-weight:800; font-size:22px; letter-spacing:0.02em; color:var(--ink); text-decoration:none;
+  }
+  .nav-links{display:flex; gap:28px; list-style:none; margin:0; padding:0;}
+  .nav-links a{
+    font-size:13.5px; font-weight:600; text-decoration:none; color:var(--ink);
+    text-transform:uppercase; letter-spacing:0.04em; opacity:.85;
+  }
+  .nav-links a.is-active, .nav-links a:hover{opacity:1; color:var(--horizon);}
+  .nav-icons{display:flex; align-items:center; gap:16px;}
+  .nav-icons button, .nav-icons a{background:none; border:none; padding:6px; color:var(--ink); display:flex; text-decoration:none;}
+  .nav-icons .icon{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.7;}
+  .nav-icons .icon.is-active-icon{color:var(--horizon);}
+  .cart-count{
+    font-family:'JetBrains Mono',monospace; font-size:10px; background:var(--horizon); color:#fff;
+    border-radius:50%; width:16px; height:16px; display:flex; align-items:center; justify-content:center;
+    position:relative; left:-14px; top:-8px;
+  }
+  .nav-icons .nav-toggle{display:none; background:none; border:none; color:var(--ink);}
+  .mobile-panel{
+    display:none; position:fixed; top:0; left:0; right:0; z-index:49; background:var(--ink);
+    padding:96px 24px 24px; flex-direction:column; gap:20px;
+  }
+  .mobile-panel.open{display:flex;}
+  .mobile-panel a{color:#fff; text-decoration:none; font-size:16px; text-transform:uppercase; letter-spacing:.04em; font-weight:600;}
+
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .nav-icons .nav-toggle{display:flex; padding:6px;}
+  }
+
+  /* AUTH PAGE */
+  .auth-page{
+    padding:24px 0 64px; display:flex; justify-content:center; align-items:center;
+    min-height:calc(100vh - 64px);
+  }
+  .auth-card{
+    width:100%; max-width:440px;
+    padding:36px clamp(24px,4vw,44px) 40px;
+  }
+  .auth-card h1{font-size:clamp(24px,3.2vw,32px); margin:0 0 8px;}
+  .auth-card .lede{color:var(--muted); font-size:14px; margin:0 0 28px;}
+
+  .auth-row + .auth-row{margin-top:16px;}
+  .auth-field{display:flex; flex-direction:column; gap:6px;}
+  .auth-field label{font-size:12.5px; font-weight:600; color:var(--muted);}
+  .auth-field input{
+    font-family:'Inter',sans-serif; font-size:14.5px; color:var(--ink); background:var(--white);
+    border:1px solid var(--border); border-radius:var(--radius); padding:12px 14px; width:100%;
+  }
+  .auth-field input:focus{
+    outline:none; border-color:var(--horizon); box-shadow:0 0 0 3px rgba(21,94,239,.12);
+  }
+  .auth-field input::placeholder{color:#9aa7ac;}
+
+  .auth-forgot{display:flex; justify-content:flex-end; margin-top:10px;}
+  .auth-forgot a{font-size:12.5px; color:var(--horizon); text-decoration:underline; text-underline-offset:3px;}
+  .auth-forgot a:hover{color:var(--horizon-deep);}
+
+  .btn-auth{
+    font-family:'Inter',sans-serif; font-weight:700; font-size:14.5px; letter-spacing:.03em;
+    text-transform:uppercase; background:var(--horizon); color:var(--horizon-ink); border:none;
+    border-radius:var(--radius); padding:15px 20px; width:100%; text-align:center; margin-top:24px;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+  }
+  .btn-auth:hover{background:var(--horizon-deep);}
+  .btn-auth:disabled{opacity:.75; cursor:default;}
+  .auth-spinner{
+    width:16px; height:16px; border-radius:50%; border:2px solid rgba(245,249,250,.4);
+    border-top-color:var(--horizon-ink); display:none; animation:auth-spin .7s linear infinite;
+  }
+  .btn-auth.is-loading .auth-spinner{display:inline-block;}
+  @keyframes auth-spin{ to{ transform:rotate(360deg); } }
+
+  .auth-divider{display:flex; align-items:center; gap:12px; margin:28px 0; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.06em;}
+  .auth-divider::before, .auth-divider::after{content:''; flex:1; height:1px; background:var(--border);}
+
+  .auth-alt{text-align:center; font-size:14px; color:var(--muted);}
+  .auth-alt a{color:var(--horizon); font-weight:700; text-decoration:none;}
+  .auth-alt a:hover{text-decoration:underline;}
+
+  .auth-note{display:none; font-size:12px; color:var(--muted); margin-top:10px; text-align:center;}
+  .auth-note.show{display:block;}
+
+  /* FOOTER — minimal single bar (this page has no full marketing footer) */
+  footer{background:var(--white); border-top:1px solid var(--border);}
+  .foot-bottom{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+    padding:22px 0; font-size:12.5px; color:var(--muted);
+  }
+  .foot-bottom .legal{display:flex; gap:18px; list-style:none; margin:0; padding:0;}
+  .foot-bottom a{text-decoration:none; color:var(--muted);}
+
+
+  /* Mega-menu nav */
+  .nav-links a:hover{color:var(--horizon);}
+  .nav-item{position:relative;}
+  .mega-menu{
+    display:none; position:fixed; left:0; right:0; top:var(--nav-h, 84px);
+    background:var(--white); border-top:1px solid var(--border);
+    box-shadow:0 20px 40px rgba(18,33,42,.14); z-index:60;
+  }
+  .nav-item.mega-open .mega-menu, .nav-item:focus-within .mega-menu{display:block;}
+  .mega-menu-inner{max-width:var(--maxw); margin-inline:auto; padding:36px 24px 40px; display:flex; gap:56px;}
+  .mega-col{display:flex; flex-direction:column; gap:2px; min-width:180px;}
+  .mega-col-head{
+    font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:.1em; color:var(--muted); margin:14px 0 4px;
+  }
+  .mega-col-head:first-child{margin-top:0;}
+  .mega-col a{color:var(--ink); text-decoration:none; font-size:14.5px; padding:7px 0; text-transform:none; letter-spacing:0; font-weight:500;}
+  .mega-col a:hover{color:var(--horizon);}
+  .mega-col a.mega-all{font-weight:700; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:6px;}
+  .mega-promo{
+    margin-left:auto; flex:0 0 260px; background:var(--surface-2); border-radius:var(--radius);
+    padding:24px; display:flex; flex-direction:column; gap:8px;
+  }
+  .mega-promo .eyebrow{color:var(--horizon); display:block;}
+  .mega-promo h4{font-family:'Poppins',sans-serif; font-weight:800; text-transform:uppercase; font-size:20px; margin:0; letter-spacing:.01em; color:var(--ink);}
+  .mega-promo p{font-size:13px; color:var(--muted); margin:0; line-height:1.5;}
+  .mega-promo .btn{margin-top:6px; align-self:flex-start; padding:10px 18px; font-size:12.5px;}
+
+  /* Mobile nav accordion */
+  .mobile-panel{overflow-y:auto; gap:0; bottom:0;}
+  .mp-group{border-bottom:1px solid rgba(255,255,255,.14); padding:4px 0;}
+  .mp-row{display:flex; align-items:center; justify-content:space-between; gap:12px;}
+  .mp-row > a{flex:1; padding:14px 0;}
+  .mp-toggle{background:none; border:none; color:#fff; padding:14px 4px; display:flex; align-items:center; cursor:pointer;}
+  .mp-chevron{display:inline-block; transition:transform .2s ease; font-size:20px; line-height:1;}
+  .mp-toggle[aria-expanded="true"] .mp-chevron{transform:rotate(90deg);}
+  .mp-sub{display:none; flex-direction:column; gap:0; padding:0 0 14px 14px;}
+  .mp-sub.open{display:flex;}
+  .mp-sub a{font-size:14px; font-weight:500; text-transform:none; letter-spacing:0; opacity:.85; padding:9px 0;}
+  .mp-sub-head{font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.1em; opacity:.55; margin:10px 0 2px;}
+  .mp-sub-head:first-child{margin-top:4px;}
+  .mp-plain{display:block; padding:14px 0;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav" id="siteNav">
+  <div class="container">
+    <a class="word" href="index.html">WESTLINE</a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <a href="catalog.html">Surfboards</a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner container">
+            <div class="mega-col">
+              <a class="mega-all" href="catalog.html">All Surfboards</a>
+              <a href="catalog.html">Performance Shortboard</a>
+              <a href="catalog.html">Longboard</a>
+              <a href="catalog.html">Fish &amp; Twinfin</a>
+              <a href="catalog.html">Fun Board</a>
+              <a href="catalog.html">Soft-top / Beginner</a>
+            </div>
+            <div class="mega-promo">
+              <span class="eyebrow">Not sure where to start?</span>
+              <h4>Take the 2-Minute Finder</h4>
+              <p>Answer five quick questions and we'll match you to the right board.</p>
+              <a class="btn btn-primary" href="surfboard-finder.html">Start the Finder</a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="#">Accessories</a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner container">
+            <div class="mega-col">
+              <a class="mega-all" href="#">All Accessories</a>
+              <a href="#">Fins</a>
+              <a href="#">Leashes</a>
+              <a href="#">Traction</a>
+              <a href="#">Travel Bags</a>
+              <a href="#">Gear</a>
+            </div>
+            <div class="mega-promo">
+              <span class="eyebrow">Not sure where to start?</span>
+              <h4>Take the 2-Minute Finder</h4>
+              <p>Answer five quick questions and we'll match you to the right board.</p>
+              <a class="btn btn-primary" href="surfboard-finder.html">Start the Finder</a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="#">Wetsuits</a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner container">
+            <div class="mega-col">
+              <a class="mega-all" href="#">All Wetsuits</a>
+              <a href="#">Men</a>
+              <a href="#">Women</a>
+              <a href="#">Kids</a>
+            </div>
+            <div class="mega-promo">
+              <span class="eyebrow">Not sure where to start?</span>
+              <h4>Take the 2-Minute Finder</h4>
+              <p>Answer five quick questions and we'll match you to the right board.</p>
+              <a class="btn btn-primary" href="surfboard-finder.html">Start the Finder</a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="product-apparel-samurai-boardshort.html">Clothing</a>
+        <div class="mega-menu">
+          <div class="mega-menu-inner container">
+            <div class="mega-col">
+              <span class="mega-col-head">Men</span>
+              <a href="#">T-Shirts &amp; Tanks</a>
+              <a href="#">Shorts</a>
+              <a href="product-apparel-samurai-boardshort.html">Boardshorts</a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-head">Women</span>
+              <a href="#">Tops</a>
+              <a href="#">Shorts</a>
+              <a href="#">Swimmers</a>
+            </div>
+            <div class="mega-promo">
+              <span class="eyebrow">Not sure where to start?</span>
+              <h4>Take the 2-Minute Finder</h4>
+              <p>Answer five quick questions and we'll match you to the right board.</p>
+              <a class="btn btn-primary" href="surfboard-finder.html">Start the Finder</a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a class="is-finder" href="surfboard-finder.html">Surfboard Finder</a></li>
+    </ul>
+    <div class="nav-icons">
+      <button aria-label="Search"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></button>
+      <a href="login.html" aria-label="Account"><svg class="icon is-active-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 5-6 8-6s6.4 2 8 6"/></svg></a>
+      <a href="profile.html#wishlist" aria-label="Wishlist"><svg class="icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></a>
+      <a href="cart.html" aria-label="Cart" style="position:relative;">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-count" id="cartCountBadge">2</span>
+      </a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false" id="navToggle">
+        <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" fill="none"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-panel" id="mobilePanel">
+  <div class="mp-group">
+    <div class="mp-row">
+      <a href="catalog.html">Surfboards</a>
+      <button class="mp-toggle" aria-expanded="false" aria-label="Toggle Surfboards submenu"><span class="mp-chevron">&rsaquo;</span></button>
+    </div>
+    <div class="mp-sub">
+      <a href="catalog.html">All Surfboards</a>
+      <a href="catalog.html">Performance Shortboard</a>
+      <a href="catalog.html">Longboard</a>
+      <a href="catalog.html">Fish &amp; Twinfin</a>
+      <a href="catalog.html">Fun Board</a>
+      <a href="catalog.html">Soft-top / Beginner</a>
+    </div>
+  </div>
+  <div class="mp-group">
+    <div class="mp-row">
+      <a href="#">Accessories</a>
+      <button class="mp-toggle" aria-expanded="false" aria-label="Toggle Accessories submenu"><span class="mp-chevron">&rsaquo;</span></button>
+    </div>
+    <div class="mp-sub">
+      <a href="#">All Accessories</a>
+      <a href="#">Fins</a>
+      <a href="#">Leashes</a>
+      <a href="#">Traction</a>
+      <a href="#">Travel Bags</a>
+      <a href="#">Gear</a>
+    </div>
+  </div>
+  <div class="mp-group">
+    <div class="mp-row">
+      <a href="#">Wetsuits</a>
+      <button class="mp-toggle" aria-expanded="false" aria-label="Toggle Wetsuits submenu"><span class="mp-chevron">&rsaquo;</span></button>
+    </div>
+    <div class="mp-sub">
+      <a href="#">All Wetsuits</a>
+      <a href="#">Men</a>
+      <a href="#">Women</a>
+      <a href="#">Kids</a>
+    </div>
+  </div>
+  <div class="mp-group">
+    <div class="mp-row">
+      <a href="product-apparel-samurai-boardshort.html">Clothing</a>
+      <button class="mp-toggle" aria-expanded="false" aria-label="Toggle Clothing submenu"><span class="mp-chevron">&rsaquo;</span></button>
+    </div>
+    <div class="mp-sub">
+      <span class="mp-sub-head">Men</span>
+      <a href="#">T-Shirts &amp; Tanks</a>
+      <a href="#">Shorts</a>
+      <a href="product-apparel-samurai-boardshort.html">Boardshorts</a>
+      <span class="mp-sub-head">Women</span>
+      <a href="#">Tops</a>
+      <a href="#">Shorts</a>
+      <a href="#">Swimmers</a>
+    </div>
+  </div>
+  <a class="mp-plain" href="surfboard-finder.html">Surfboard Finder</a>
+</nav>
+
+<main id="main">
+  <section class="auth-page">
+    <div class="auth-card">
+      <h1 class="display">Sign In</h1>
+      <p class="lede">Welcome back to WESTLINE.</p>
+
+      <form id="loginForm">
+        <div class="auth-row">
+          <div class="auth-field">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" placeholder="you@email.com">
+          </div>
+        </div>
+        <div class="auth-row">
+          <div class="auth-field">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••">
+          </div>
+          <div class="auth-forgot">
+            <a href="#" id="forgotLink">Forgot your password?</a>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-auth" id="loginBtn">
+          <span class="auth-spinner"></span>
+          <span id="loginBtnLabel">Sign In</span>
+        </button>
+        <p class="auth-note" id="forgotNote">Password reset isn't available in this demo — stay tuned!</p>
+      </form>
+
+      <div class="auth-divider">or</div>
+      <p class="auth-alt">New to WESTLINE? <a href="signup.html">Create an account</a></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-bottom">
+      <span>© 2026 WESTLINE. Find Your Line.</span>
+      <ul class="legal">
+        <li><a href="seller-login.html">Seller Login</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<a id="authRedirect" href="index.html" style="display:none"></a>
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var panel = document.getElementById('mobilePanel');
+  toggle.addEventListener('click', function(){
+    var open = panel.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+
+(function(){
+  var forgotLink = document.getElementById('forgotLink');
+  var forgotNote = document.getElementById('forgotNote');
+  forgotLink.addEventListener('click', function(e){
+    e.preventDefault();
+    forgotNote.classList.add('show');
+    setTimeout(function(){ forgotNote.classList.remove('show'); }, 2500);
+  });
+
+  var form = document.getElementById('loginForm');
+  var btn = document.getElementById('loginBtn');
+  var label = document.getElementById('loginBtnLabel');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(btn.classList.contains('is-loading')) return;
+    btn.classList.add('is-loading');
+    btn.disabled = true;
+    label.textContent = 'Signing in…';
+    // navigate via a real anchor click, in the same click/submit event —
+    // Claude Artifacts' sandboxed frame blocks a raw JS location change as
+    // an unrequested top-level navigation, but a real <a> click is allowed
+    document.getElementById('authRedirect').click();
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var nav = document.getElementById('siteNav');
+  function updateNavHeight(){
+    if(nav){ nav.style.setProperty('--nav-h', nav.offsetHeight + 'px'); }
+  }
+  updateNavHeight();
+  window.addEventListener('resize', updateNavHeight);
+  document.addEventListener('scroll', updateNavHeight, {passive:true});
+
+  Array.prototype.forEach.call(document.querySelectorAll('.mp-toggle'), function(btn){
+    btn.addEventListener('click', function(){
+      var group = btn.closest('.mp-group');
+      var sub = group ? group.querySelector('.mp-sub') : null;
+      if(!sub) return;
+      var open = sub.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  // Mega-menu hover-intent: a short close delay bridges the dead-zone gap
+  // between the nav-item's hover box and the mega-menu panel below it, so
+  // moving the mouse down into the menu doesn't disestablish hover mid-transit.
+  Array.prototype.forEach.call(document.querySelectorAll('.nav-item'), function(item){
+    var closeTimer = null;
+    item.addEventListener('mouseenter', function(){
+      clearTimeout(closeTimer);
+      item.classList.add('mega-open');
+    });
+    item.addEventListener('mouseleave', function(){
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(function(){
+        item.classList.remove('mega-open');
+      }, 250);
+    });
+  });
+})();
+</script>
+</body>
+</html>
