@@ -1,7 +1,7 @@
 # Home Featured Gear
 
 > Epic: ../../epic.md
-> Status: shaped
+> Status: in-progress
 > Branch: feat/storefront-catalog/home-featured-gear
 > Covers: frontend/src/components/home/featured-gear/**, frontend/src/__tests__/components/home/featured-gear/**
 
@@ -65,3 +65,4 @@ Decisions (2026-10-14):
 | Date | Author | Type | Change | Ref |
 |---|---|---|---|---|
 | 2026-10-14 | Ori Chai Matan | created | Initial shaping | — |
+| 2026-10-14 | Ori Chai Matan | change | Implemented on its branch (commit `9332825`). The slider is a client component with `useFeaturedSlider` (`stepCount` = the design's `positions()`); on desktop the arrow padding applies only when more than 4 products overflow, so ≤4 keeps the design's full-width row. QA: PASS WITH NOTES | qa-report.md |

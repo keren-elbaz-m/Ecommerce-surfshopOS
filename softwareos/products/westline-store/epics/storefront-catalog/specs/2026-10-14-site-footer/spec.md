@@ -1,7 +1,7 @@
 # Site Footer
 
 > Epic: ../../epic.md
-> Status: shaped
+> Status: in-progress
 > Branch: feat/storefront-catalog/site-footer
 > Covers: cms/src/api/footer/**, cms/src/components/shared/link.json, cms/src/components/shared/footer-column.json, cms/src/bootstrap/footer.ts, cms/scripts/seed-footer.js, cms/seed/footer/**, cms/tests/footer/**, frontend/src/components/site-footer/**, frontend/src/lib/strapi/footer.ts, frontend/src/__tests__/components/site-footer/**, frontend/src/__tests__/lib/strapi/footer.test.ts
 
@@ -67,3 +67,4 @@ Decisions (2026-10-14):
 | Date | Author | Type | Change | Ref |
 |---|---|---|---|---|
 | 2026-10-14 | Ori Chai Matan | created | Initial shaping | — |
+| 2026-10-14 | Ori Chai Matan | change | Implemented on its branch (commit `6bebc17`). My Account also got `pb-16` (64px) so its last section doesn't touch the footer (its old bar carried `margin-top`). QA: PASS WITH NOTES | qa-report.md |

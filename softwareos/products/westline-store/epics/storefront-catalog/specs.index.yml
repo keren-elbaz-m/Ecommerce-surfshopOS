@@ -122,7 +122,7 @@ specs:
       - frontend/src/__tests__/app/api/cart/**
   - folder: 2026-10-14-site-footer
     slug: site-footer
-    status: shaped
+    status: in-progress
     branch: feat/storefront-catalog/site-footer
     covers:
       - cms/src/api/footer/**
@@ -138,7 +138,7 @@ specs:
       - frontend/src/__tests__/lib/strapi/footer.test.ts
   - folder: 2026-10-14-home-featured-gear
     slug: home-featured-gear
-    status: shaped
+    status: in-progress
     branch: feat/storefront-catalog/home-featured-gear
     covers:
       - frontend/src/components/home/featured-gear/**
