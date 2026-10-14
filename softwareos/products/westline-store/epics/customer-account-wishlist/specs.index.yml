@@ -53,3 +53,10 @@ specs:
       - frontend/src/__tests__/app/api/wishlist/**
       - frontend/src/__tests__/lib/strapi/wishlist.test.ts
       - frontend/src/__tests__/lib/wishlist/**
+  - folder: 2026-10-14-order-history
+    slug: order-history
+    status: in-progress
+    branch: feat/customer-account-wishlist/order-history
+    covers:
+      - frontend/src/components/order-history/**
+      - frontend/src/__tests__/components/order-history/**
