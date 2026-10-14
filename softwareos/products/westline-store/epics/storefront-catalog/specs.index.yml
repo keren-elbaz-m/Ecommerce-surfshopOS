@@ -132,9 +132,9 @@ specs:
       - cms/scripts/seed-footer.js
       - cms/seed/footer/**
       - cms/tests/footer/**
-      - frontend/src/components/site-footer/**
+      - frontend/src/shared/components/site-footer/**
       - frontend/src/lib/strapi/footer.ts
-      - frontend/src/__tests__/components/site-footer/**
+      - frontend/src/__tests__/shared/components/site-footer/**
       - frontend/src/__tests__/lib/strapi/footer.test.ts
   - folder: 2026-10-14-home-featured-gear
     slug: home-featured-gear
@@ -143,3 +143,6 @@ specs:
     covers:
       - frontend/src/components/home/featured-gear/**
       - frontend/src/__tests__/components/home/featured-gear/**
+      - frontend/src/shared/components/product-slider/**
+      - frontend/src/__tests__/shared/components/product-slider/**
+      - frontend/src/components/product-detail/shared/RelatedProducts.tsx

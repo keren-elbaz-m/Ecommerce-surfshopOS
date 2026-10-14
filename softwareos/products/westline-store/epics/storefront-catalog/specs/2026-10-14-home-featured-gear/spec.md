@@ -3,7 +3,7 @@
 > Epic: ../../epic.md
 > Status: in-progress
 > Branch: feat/storefront-catalog/home-featured-gear
-> Covers: frontend/src/components/home/featured-gear/**, frontend/src/__tests__/components/home/featured-gear/**
+> Covers: frontend/src/components/home/featured-gear/**, frontend/src/__tests__/components/home/featured-gear/**, frontend/src/shared/components/product-slider/**, frontend/src/__tests__/shared/components/product-slider/**, frontend/src/components/product-detail/shared/RelatedProducts.tsx
 
 ## Overview
 
@@ -31,6 +31,7 @@ Decisions (2026-10-14):
    - There's one dot per snap position ("Go to slide N", with `aria-current` on the current one). The dots are hidden when there are fewer than 2 positions.
 4. AC4: With no featured products (or Strapi down), the section isn't rendered and the page still loads.
 5. AC5: Layout matches the design at 1280, 900 and 375 with no page-level horizontal scroll.
+6. AC6: Both product pages end with the design's "You might also like" rail (`.related`: 64px above, a `clamp(22px,3vw,30px)` display heading), holding the Featured products minus the product being viewed, in the same slider and cards as Home. Hidden when nothing else is featured, when Strapi fails, and on the unavailable state. *(Added 2026-10-14, Ori's request.)*
 
 ## Technical Approach
 
@@ -43,8 +44,7 @@ Decisions (2026-10-14):
 - `lib/strapi/homepage.ts` (home-hero's file): add `getHomepageFeaturedText()`, returning `{ eyebrow, title }` or `null`.
 - `components/home/featured-gear/`:
   - `FeaturedGear.tsx`: async server component. It fetches both and returns `null` when there are no products.
-  - `FeaturedSlider.tsx`: client component with the track, arrows and dots.
-  - `use-featured-slider.ts`: the position and edge logic. The pure `stepCount()` (number of snap positions) is tested.
+  - The track is the shared `shared/components/product-slider` (`ProductSlider` + `useProductSlider`, cards passed as children; `stepCount()` tested), also used by the product pages.
   - `featured-gear-texts.ts`, `featured-gear.styles.ts`, `index.ts`.
 - `app/[locale]/[[...segments]]/page.tsx` (home-hero's file): renders `<Hero />` then `<FeaturedGear />`.
 
@@ -66,3 +66,4 @@ Decisions (2026-10-14):
 |---|---|---|---|---|
 | 2026-10-14 | Ori Chai Matan | created | Initial shaping | — |
 | 2026-10-14 | Ori Chai Matan | change | Implemented on its branch (commit `9332825`). The slider is a client component with `useFeaturedSlider` (`stepCount` = the design's `positions()`); on desktop the arrow padding applies only when more than 4 products overflow, so ≤4 keeps the design's full-width row. QA: PASS WITH NOTES | qa-report.md |
+| 2026-10-14 | Ori Chai Matan | change | Ori's request: Featured products also show on the product pages as the design's "You might also like" rail (new AC6; `components/product-detail/shared/RelatedProducts.tsx`, fetched in `ProductDetailPage` with the product). To share it, the slider moved to `shared/components/product-slider` (`ProductSlider` takes the cards as children so it doesn't depend on the wishlist). Covers extended. Verified live on both product types (self excluded) and Home; 893 frontend tests | commit `5ec5af2` |

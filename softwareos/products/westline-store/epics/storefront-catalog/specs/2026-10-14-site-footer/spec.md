@@ -3,7 +3,7 @@
 > Epic: ../../epic.md
 > Status: in-progress
 > Branch: feat/storefront-catalog/site-footer
-> Covers: cms/src/api/footer/**, cms/src/components/shared/link.json, cms/src/components/shared/footer-column.json, cms/src/bootstrap/footer.ts, cms/scripts/seed-footer.js, cms/seed/footer/**, cms/tests/footer/**, frontend/src/components/site-footer/**, frontend/src/lib/strapi/footer.ts, frontend/src/__tests__/components/site-footer/**, frontend/src/__tests__/lib/strapi/footer.test.ts
+> Covers: cms/src/api/footer/**, cms/src/components/shared/link.json, cms/src/components/shared/footer-column.json, cms/src/bootstrap/footer.ts, cms/scripts/seed-footer.js, cms/seed/footer/**, cms/tests/footer/**, frontend/src/shared/components/site-footer/**, frontend/src/lib/strapi/footer.ts, frontend/src/__tests__/shared/components/site-footer/**, frontend/src/__tests__/lib/strapi/footer.test.ts
 
 ## Overview
 
@@ -46,7 +46,7 @@ Decisions (2026-10-14):
 
 **Frontend:**
 - `lib/strapi/footer.ts`: `getFooter()` via `strapiFetch` (populate `Columns.Links` and `LegalLinks`; a 404 is silent). It normalises to `{ tagline, columns[{ title, links[{ label, href, external }] }], legalLinks, copyright }`, drops unsafe hrefs (`isSafeHref`: `/` but not `//`, or `http(s)://`) and empty columns, and returns `null` when the footer is unavailable.
-- `components/site-footer/`: `SiteFooter.tsx` (async server component, one return; it chooses between the full footer and the fallback), `site-footer-texts.ts` (wordmark, fallback copyright, "Footer" label), `site-footer.styles.ts`, `index.ts`.
+- `shared/components/site-footer/` (moved from `components/` on 2026-10-14): `SiteFooter.tsx` (async server component, one return; it chooses between the full footer and the fallback), `site-footer-texts.ts` (wordmark, fallback copyright, "Footer" label), `site-footer.styles.ts`, `index.ts`.
 - `app/[locale]/layout.tsx`: renders `<SiteFooter />` after `{children}` (account-signup-login's file).
 - `components/account/AccountPage.tsx`: the footer bar and its strings and styles are removed (account-profile's files).
 
@@ -68,3 +68,4 @@ Decisions (2026-10-14):
 |---|---|---|---|---|
 | 2026-10-14 | Ori Chai Matan | created | Initial shaping | — |
 | 2026-10-14 | Ori Chai Matan | change | Implemented on its branch (commit `6bebc17`). My Account also got `pb-16` (64px) so its last section doesn't touch the footer (its old bar carried `margin-top`). QA: PASS WITH NOTES | qa-report.md |
+| 2026-10-14 | Ori Chai Matan | change | Ori's request: the footer renders on every page, so it moved to `shared/components/site-footer` (tests to `__tests__/shared/components/site-footer`); Covers updated. No behaviour change | commit `b658ea4` |
