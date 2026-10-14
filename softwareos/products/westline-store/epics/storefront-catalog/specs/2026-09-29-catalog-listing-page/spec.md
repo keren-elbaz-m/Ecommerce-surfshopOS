@@ -142,3 +142,4 @@ The design source is `westline-site-desing/catalog.html` (`.cat-header`, `.catal
 | 2026-09-29 | Ori Chai Matan | created | Initial shaping | — |
 | 2026-09-29 | Ori Chai Matan | change | Built (T1–T10): AC4 now states that `?page` above `max(1, pageCount)` 404s, including `?page=2` on an empty list; `buildSidebar` takes the resolved location (it derives the current href); dropped the unused `toggleGroup` text | — |
 | 2026-09-29 | Ori Chai Matan | change | AC6/AC9: the "N results" count is hidden when the result is 0 (empty state) | — |
+| 2026-10-14 | Ori Chai Matan | change | wishlist: `CatalogPage.tsx` renders `WishlistProductCard` (from `components/wishlist`) instead of `ProductCard`, so the card heart is on. **AC12's "no heart" is superseded by wishlist AC1**; `CatalogPage.test.tsx` now renders inside a wishlist context and asserts 16 "Add to wishlist" hearts. Nothing else on the page changed | customer-account-wishlist/2026-10-14-wishlist |
