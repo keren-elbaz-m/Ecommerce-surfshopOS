@@ -15,7 +15,6 @@ specs:
       - frontend/src/app/[locale]/auth/**
       - frontend/src/lib/auth/**
       - frontend/src/app/api/auth/**
-      - frontend/src/components/logout-button.tsx
       - frontend/src/app/[locale]/layout.tsx
       - cms/config/plugins.ts
       - cms/config/middlewares.ts

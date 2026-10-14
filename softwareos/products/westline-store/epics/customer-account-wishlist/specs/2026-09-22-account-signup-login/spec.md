@@ -3,7 +3,7 @@
 > Epic: ../../epic.md
 > Status: in-progress
 > Branch: feat/customer-account-wishlist/account-signup-login
-> Covers: /auth/login, /auth/register, /auth/forgot-password, /auth/reset-password, /auth/connect/google/redirect, frontend/src/app/[locale]/auth/**, frontend/src/lib/auth/**, frontend/src/app/api/auth/**, frontend/src/components/logout-button.tsx, frontend/src/app/[locale]/layout.tsx, cms/config/plugins.ts, cms/config/middlewares.ts, cms/config/server.ts, cms/src/extensions/users-permissions/**, cms/src/index.ts, cms/src/bootstrap/welcome-email.ts
+> Covers: /auth/login, /auth/register, /auth/forgot-password, /auth/reset-password, /auth/connect/google/redirect, frontend/src/app/[locale]/auth/**, frontend/src/lib/auth/**, frontend/src/app/api/auth/**, frontend/src/app/[locale]/layout.tsx, cms/config/plugins.ts, cms/config/middlewares.ts, cms/config/server.ts, cms/src/extensions/users-permissions/**, cms/src/index.ts, cms/src/bootstrap/welcome-email.ts
 
 ## Overview
 
@@ -137,3 +137,4 @@ Note: an empty branch `feat/customer-account-wishlist/login-signup` already exis
 | 2026-10-11 | Ori Chai Matan | change | Login, register and Google OAuth honour a safe `?next=` (same-site relative paths only, via `lib/auth/next-path.ts`; Google carries it in a short-lived httpOnly cookie set by a new `app/api/auth/google` route). `cms/config/server.ts` enables `cron` for the abandoned-guest-cart purge. Minimal edits only; the auth area isn't restructured | cart-checkout/2026-10-11-checkout |
 | 2026-10-11 | Ori Chai Matan | change | `cms/src/index.ts` registers the order guard (`register`) and `setupOrderAdmin` (`bootstrap`) for checkout's read-only Order admin fields. One line each; nothing else in the auth bootstrap changed | cart-checkout/2026-10-11-checkout |
 | 2026-10-14 | Ori Chai Matan | change | wishlist: the locale layout wraps the tree in `WishlistProvider signedIn={getSession() !== null}` inside `CartProvider` (one added wrapper). The auth flow is reused unchanged: login and register already push the safe `next` and refresh, which is what lands a guest's heart back on the same page | customer-account-wishlist/2026-10-14-wishlist |
+| 2026-10-14 | Ori Chai Matan | change | site-nav account menu (Ori's design decision): `components/logout-button.tsx` was only used by the nav and is removed — signed-in sign-out now lives in the nav's account dropdown (and My Account's Sign Out). AC8 still holds (the icon reflects signed-in vs. guest); when signed in it opens the menu instead of showing Log Out. Dropped `logout-button.tsx` from Covers | storefront-catalog/2026-09-29-site-nav |
