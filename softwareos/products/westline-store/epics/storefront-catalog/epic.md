@@ -26,3 +26,5 @@ Lets customers browse, search, filter, and sort WESTLINE's product catalog, and 
 | [2026-10-06-surfboard-detail-page](specs/2026-10-06-surfboard-detail-page/spec.md) | in-progress | feat/storefront-catalog/surfboard-detail-page |
 | [2026-10-07-standard-product-detail-page](specs/2026-10-07-standard-product-detail-page/spec.md) | done | feat/storefront-catalog/standard-product-detail-page |
 | [2026-10-10-add-to-cart](specs/2026-10-10-add-to-cart/spec.md) | done | feat/storefront-catalog/add-to-cart |
+| [2026-10-14-site-footer](specs/2026-10-14-site-footer/spec.md) | shaped | feat/storefront-catalog/site-footer |
+| [2026-10-14-home-featured-gear](specs/2026-10-14-home-featured-gear/spec.md) | shaped | feat/storefront-catalog/home-featured-gear |

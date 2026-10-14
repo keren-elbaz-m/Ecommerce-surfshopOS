@@ -120,3 +120,26 @@ specs:
       - frontend/src/__tests__/lib/strapi/cart.test.ts
       - frontend/src/__tests__/lib/cart/**
       - frontend/src/__tests__/app/api/cart/**
+  - folder: 2026-10-14-site-footer
+    slug: site-footer
+    status: shaped
+    branch: feat/storefront-catalog/site-footer
+    covers:
+      - cms/src/api/footer/**
+      - cms/src/components/shared/link.json
+      - cms/src/components/shared/footer-column.json
+      - cms/src/bootstrap/footer.ts
+      - cms/scripts/seed-footer.js
+      - cms/seed/footer/**
+      - cms/tests/footer/**
+      - frontend/src/components/site-footer/**
+      - frontend/src/lib/strapi/footer.ts
+      - frontend/src/__tests__/components/site-footer/**
+      - frontend/src/__tests__/lib/strapi/footer.test.ts
+  - folder: 2026-10-14-home-featured-gear
+    slug: home-featured-gear
+    status: shaped
+    branch: feat/storefront-catalog/home-featured-gear
+    covers:
+      - frontend/src/components/home/featured-gear/**
+      - frontend/src/__tests__/components/home/featured-gear/**
