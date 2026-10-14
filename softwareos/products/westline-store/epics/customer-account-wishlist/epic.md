@@ -1,7 +1,7 @@
 # Customer Account & Wishlist
 
 > Product: ../../mission.md
-> Status: planning
+> Status: active
 > Created: 2026-09-15 · Roles planned: PM, Tech
 
 ## Summary
@@ -17,3 +17,7 @@ Lets customers create an account, log in/out, manage their profile, view order h
 
 | Spec | Status | Branch |
 |---|---|---|
+| [2026-09-22-account-signup-login](specs/2026-09-22-account-signup-login/spec.md) | in-progress | feat/customer-account-wishlist/account-signup-login |
+| [2026-10-13-account-profile](specs/2026-10-13-account-profile/spec.md) | in-progress | feat/customer-account-wishlist/account-profile |
+| [2026-10-14-wishlist](specs/2026-10-14-wishlist/spec.md) | in-progress | feat/customer-account-wishlist/wishlist |
+| [2026-10-14-order-history](specs/2026-10-14-order-history/spec.md) | in-progress | feat/customer-account-wishlist/order-history |

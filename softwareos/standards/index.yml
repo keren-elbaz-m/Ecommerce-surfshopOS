@@ -6,3 +6,6 @@ global:
   tech-stack:
     description: Needs description - run /index-standards
 
+frontend:
+  components:
+    description: "Storefront (frontend/src) conventions: one component and one return per file (lift per-item state, inline sub-markup in maps, JSX constants, single Icon); PascalCase components / kebab-case TS; app/ is routing only; all Strapi fetches via lib/strapi/client.ts; all URLs via lib/routes.ts; UI strings in <name>-texts.ts (interpolations as functions, never CMS content). Auth area (account-signup-login) is a pre-existing exception."

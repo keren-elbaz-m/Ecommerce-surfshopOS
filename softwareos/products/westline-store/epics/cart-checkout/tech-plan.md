@@ -18,7 +18,7 @@ Adds a new Order (and related line-item) content type/schema in Strapi to record
 
 ## Candidate Specs
 
-- `persistent-cart` — move cart state from client-only to persisted (localStorage/session-backed), with a viewable cart page for adjusting quantities and removing items.
-- `order-content-model-admin-view` — Order + line-item content type/schema in Strapi with validation, plus a basic admin-panel view so orders are inspectable.
-- `guest-checkout-flow` — checkout form (shipping/contact info, guest email) and mock payment step that submits the cart as a new Order in Strapi.
-- `order-confirmation` — confirmation page that reads the created order back from Strapi and displays the summary.
+- `persistent-cart` — move cart state from client-only to persisted (localStorage/session-backed), with a viewable cart page for adjusting quantities and removing items. → delivered by storefront-catalog/[2026-10-10-add-to-cart](../storefront-catalog/specs/2026-10-10-add-to-cart/spec.md) (Strapi Cart, guest token + account merge). Checkout specs build on its cart API and own the cart tech debt (no cleanup of abandoned guest carts, no rate limit on cart creation).
+- `order-content-model-admin-view` — Order + line-item content type/schema in Strapi with validation, plus a basic admin-panel view so orders are inspectable. → merged into [2026-10-11-checkout](specs/2026-10-11-checkout/spec.md).
+- `guest-checkout-flow` — checkout form (shipping/contact info, guest email) and mock payment step that submits the cart as a new Order in Strapi. → merged into [2026-10-11-checkout](specs/2026-10-11-checkout/spec.md). Shaped as **signed-in checkout** (decision 2026-10-11): guest checkout is out of scope; guests sign in at checkout (`/auth/login?next=/checkout`) and their cart merges.
+- `order-confirmation` — confirmation page that reads the created order back from Strapi and displays the summary. → merged into [2026-10-11-checkout](specs/2026-10-11-checkout/spec.md) (owner-only confirmation page + confirmation email).
